@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/recargacelular")
+@RequestMapping("/recarga-celular")
 public class RecargaCelularController {
 
     private RecargaCelularClient recargaCelularClient;
     private PagamentoBoletoClient boletoClient;
     private ContaDigitalService contaService;
 
-    @PostMapping
+    @PostMapping("/{idUsuario}")
     public ResponseEntity<NovaRecargaResponse> recargaCelular(@PathVariable Long idUsuario,
                                                               @RequestBody @Valid NovaRecargaRequest recargaRequest){
 
