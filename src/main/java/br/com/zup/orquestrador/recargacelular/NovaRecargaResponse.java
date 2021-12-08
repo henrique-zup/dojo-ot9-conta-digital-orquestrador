@@ -6,16 +6,14 @@ import java.math.BigDecimal;
 
 public class NovaRecargaResponse {
 
-        @JsonProperty
-        private String numeroCelular;
+        private String resposta;
 
-        @JsonProperty
-        private Operadora operadora;
+        public String getResposta() {
+                return resposta;
+        }
 
-        @JsonProperty
-        private BigDecimal valor;
-
-        @JsonProperty
-        private String mensagem;
+        public NovaRecargaResponse(String resposta) {
+                this.resposta = resposta;
+        }
 
 }
