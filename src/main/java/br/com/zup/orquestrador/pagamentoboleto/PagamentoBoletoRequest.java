@@ -6,20 +6,14 @@ import br.com.zup.orquestrador.contadigital.ContaDigital;
 
 public class PagamentoBoletoRequest {
 
-	private Long idUsuario;
 	private BigDecimal valor;
 	private String numeroBoleto;
 	private ContaDigital conta;
 
-	public PagamentoBoletoRequest(Long idUsuario, BigDecimal valor, String numeroBoleto, ContaDigital conta) {
-		this.idUsuario = idUsuario;
+	public PagamentoBoletoRequest(BigDecimal valor, String numeroBoleto, ContaDigital conta) {
 		this.valor = valor;
 		this.numeroBoleto = numeroBoleto;
 		this.conta = conta;
-	}
-
-	public Long getIdUsuario() {
-		return idUsuario;
 	}
 
 	public BigDecimal getValor() {

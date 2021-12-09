@@ -3,21 +3,18 @@ package br.com.zup.orquestrador.pagamentoboleto;
 import java.math.BigDecimal;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 
 import br.com.zup.orquestrador.contadigital.ContaDigital;
 
 public class DadosPagamentoBoletoRequest {
 	
-	private Long idUsuario;
+	@Positive
 	private BigDecimal valor;
 	private String numeroBoleto;
 
 	public @Valid PagamentoBoletoRequest fromClient(ContaDigital conta) {
-		return new PagamentoBoletoRequest(idUsuario, valor, numeroBoleto, conta);
-	}
-
-	public Long getIdUsuario() {
-		return idUsuario;
+		return new PagamentoBoletoRequest(valor, numeroBoleto, conta);
 	}
 
 	public BigDecimal getValor() {

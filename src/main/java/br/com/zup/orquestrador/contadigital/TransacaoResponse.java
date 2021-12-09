@@ -2,12 +2,12 @@ package br.com.zup.orquestrador.contadigital;
 
 public class TransacaoResponse {
 
-	private String idUsuario;
+	private String idCliente;
 	private String numeroConta;
 	private String email;
 
-	public String getIdUsuario() {
-		return idUsuario;
+	public String getIdCliente() {
+		return idCliente;
 	}
 
 	public String getNumeroConta() {
@@ -19,7 +19,7 @@ public class TransacaoResponse {
 	}
 
 	public ContaDigital fromModel() {
-		return new ContaDigital(idUsuario, numeroConta, email);
+		return new ContaDigital(idCliente, numeroConta, email);
 	}
 
 }

@@ -24,4 +24,9 @@ public class ContaDigital {
 		return email;
 	}
 
+	@Override
+	public String toString() {
+		return "ContaDigital [idUsuario=" + idUsuario + ", numeroConta=" + numeroConta + ", email=" + email + "]";
+	}
+	
 }

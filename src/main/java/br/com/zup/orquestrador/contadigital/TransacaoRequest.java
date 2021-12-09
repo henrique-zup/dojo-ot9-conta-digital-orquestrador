@@ -4,16 +4,16 @@ import java.math.BigDecimal;
 
 public class TransacaoRequest {
 
-	private TipoDeTransacao tipoDeTransacao;
+	private TipoDeTransacao tipoTransacao;
 	private BigDecimal valor;
 
 	private TransacaoRequest(TipoDeTransacao tipoDeTransacao, BigDecimal valor) {
-		this.tipoDeTransacao = tipoDeTransacao;
+		this.tipoTransacao = tipoDeTransacao;
 		this.valor = valor;
 	}
 
-	public TipoDeTransacao getTipoDeTransacao() {
-		return tipoDeTransacao;
+	public TipoDeTransacao getTipoTransacao() {
+		return tipoTransacao;
 	}
 
 	public BigDecimal getValor() {
@@ -21,11 +21,11 @@ public class TransacaoRequest {
 	}
 	
 	public static TransacaoRequest buildForDebito(BigDecimal valor) {
-		return new TransacaoRequest(TipoDeTransacao.DEBITO, valor);
+		return new TransacaoRequest(TipoDeTransacao.DEBITAR, valor);
 	}
 	
 	public static TransacaoRequest buildForCredito(BigDecimal valor) {
-		return new TransacaoRequest(TipoDeTransacao.CREDITO, valor);
+		return new TransacaoRequest(TipoDeTransacao.CREDITAR, valor);
 	}
 
 }
