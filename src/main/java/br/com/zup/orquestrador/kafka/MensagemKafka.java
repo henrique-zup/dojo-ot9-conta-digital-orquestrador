@@ -4,7 +4,7 @@ public class MensagemKafka {
 
 
 
-    private String operação;
+    private String operacao;
     private String valor;
     private String data;
     private String cliente;
@@ -13,8 +13,8 @@ public class MensagemKafka {
     public MensagemKafka() {
     }
 
-    public MensagemKafka(String operação, String valor, String data, String cliente, String conta) {
-        this.operação = operação;
+    public MensagemKafka(String operacao, String valor, String data, String cliente, String conta) {
+        this.operacao = operacao;
         this.valor = valor;
         this.data = data;
         this.cliente = cliente;
@@ -22,11 +22,11 @@ public class MensagemKafka {
     }
 
     public String getOperação() {
-        return operação;
+        return operacao;
     }
 
-    public void setOperação(String operação) {
-        this.operação = operação;
+    public void setOperação(String operacao) {
+        this.operacao = operacao;
     }
 
     public String getValor() {
@@ -64,7 +64,7 @@ public class MensagemKafka {
     @Override
     public String toString() {
         return "MensagemKafka{" +
-                "operação='" + operação + '\'' +
+                "operação='" + operacao + '\'' +
                 ", valor='" + valor + '\'' +
                 ", data='" + data + '\'' +
                 ", cliente='" + cliente + '\'' +
