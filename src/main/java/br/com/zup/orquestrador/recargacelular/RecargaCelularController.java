@@ -3,6 +3,9 @@ package br.com.zup.orquestrador.recargacelular;
 
 import br.com.zup.orquestrador.contadigital.ContaDigital;
 import br.com.zup.orquestrador.contadigital.ContaDigitalService;
+import br.com.zup.orquestrador.kafka.ConsumerKafka;
+import br.com.zup.orquestrador.kafka.MensagemKafka;
+import br.com.zup.orquestrador.kafka.ProducerKafka;
 import br.com.zup.orquestrador.pagamentoboleto.DadosPagamentoBoletoResponse;
 import br.com.zup.orquestrador.pagamentoboleto.PagamentoBoletoClient;
 import feign.FeignException;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
@@ -24,6 +28,9 @@ public class RecargaCelularController {
     private RecargaCelularClient recargaCelularClient;
     private PagamentoBoletoClient boletoClient;
     private ContaDigitalService contaService;
+
+    @Autowired
+    ProducerKafka producerKafka;
 
     @PostMapping("/{idUsuario}")
     public ResponseEntity<NovaRecargaResponse> recargaCelular(@PathVariable Long idUsuario,
@@ -46,6 +53,14 @@ public class RecargaCelularController {
         }
 
         return ResponseEntity.ok(new NovaRecargaResponse("Sua recarga esta sendo processada"));
+    }
+
+    @PostMapping("/kafka")
+    @ResponseStatus(HttpStatus.OK)
+    public void recargaCelular(@RequestBody MensagemKafka mensagemKafka){
+        producerKafka.sendMessage(mensagemKafka);
+
+
     }
 
 }
