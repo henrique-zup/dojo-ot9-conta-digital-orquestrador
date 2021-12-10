@@ -5,11 +5,13 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -19,6 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.zup.orquestrador.contadigital.ContaDigitalService;
 import br.com.zup.orquestrador.excecoes.clients.RecargaCelularErrorResponse;
 import br.com.zup.orquestrador.excecoes.impl.ServicoIndisponivelException;
+import br.com.zup.orquestrador.kafka.MensagemKafka;
+import br.com.zup.orquestrador.kafka.ProducerKafka;
 import feign.FeignException;
 
 @RestController
@@ -27,11 +31,14 @@ public class RecargaCelularController {
 
     private RecargaCelularClient recargaCelularClient;
     private ContaDigitalService contaService;
+    private ProducerKafka producerKafka;
+
     private final Logger logger = LoggerFactory.getLogger(RecargaCelularController.class);
     
-    public RecargaCelularController(RecargaCelularClient recargaCelularClient, ContaDigitalService contaService) {
+    public RecargaCelularController(RecargaCelularClient recargaCelularClient, ContaDigitalService contaService, ProducerKafka producerKafka) {
 		this.recargaCelularClient = recargaCelularClient;
 		this.contaService = contaService;
+        this.producerKafka = producerKafka;
 	}
 
 	@PostMapping("/{idUsuario}")
@@ -56,6 +63,14 @@ public class RecargaCelularController {
             
             return ResponseEntity.badRequest().body(error.toApiErrorResponse());
         }
+    }
+
+    @PostMapping("/kafka")
+    @ResponseStatus(HttpStatus.OK)
+    public void recargaCelular(@RequestBody MensagemKafka mensagemKafka){
+        producerKafka.sendMessage(mensagemKafka);
+
+
     }
 
 }
