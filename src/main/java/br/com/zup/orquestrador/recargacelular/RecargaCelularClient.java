@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "pagamento-boleto", url = "${clients.recarga-celular.url}")
+@FeignClient(name = "recarga-celular", url = "${clients.recarga-celular.url}")
 public interface RecargaCelularClient {
 
     @PostMapping

@@ -1,13 +1,10 @@
 package br.com.zup.orquestrador.recargacelular;
 
 
-import br.com.zup.orquestrador.contadigital.ContaDigital;
-import br.com.zup.orquestrador.contadigital.ContaDigitalService;
-import br.com.zup.orquestrador.pagamentoboleto.DadosPagamentoBoletoResponse;
-import br.com.zup.orquestrador.pagamentoboleto.PagamentoBoletoClient;
-import feign.FeignException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,37 +12,50 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.com.zup.orquestrador.contadigital.ContaDigitalService;
+import br.com.zup.orquestrador.excecoes.clients.RecargaCelularErrorResponse;
+import br.com.zup.orquestrador.excecoes.impl.ServicoIndisponivelException;
+import feign.FeignException;
 
 @RestController
 @RequestMapping("/recarga-celular")
 public class RecargaCelularController {
 
     private RecargaCelularClient recargaCelularClient;
-    private PagamentoBoletoClient boletoClient;
     private ContaDigitalService contaService;
+    private final Logger logger = LoggerFactory.getLogger(RecargaCelularController.class);
+    
+    public RecargaCelularController(RecargaCelularClient recargaCelularClient, ContaDigitalService contaService) {
+		this.recargaCelularClient = recargaCelularClient;
+		this.contaService = contaService;
+	}
 
-    @PostMapping("/{idUsuario}")
-    public ResponseEntity<NovaRecargaResponse> recargaCelular(@PathVariable Long idUsuario,
-                                                              @RequestBody @Valid NovaRecargaRequest recargaRequest){
-
-        ContaDigital conta = contaService.debitarSaldo(idUsuario, recargaRequest.getValor());
+	@PostMapping("/{idUsuario}")
+    public ResponseEntity<?> recargaCelular(@PathVariable Long idUsuario,
+                                                              @RequestBody @Valid NovaRecargaRequest recargaRequest) throws JsonMappingException, JsonProcessingException{
+        contaService.debitarSaldo(idUsuario, recargaRequest.getValor());
+        
         try {
-            recargaCelularClient.novaRecarga(recargaRequest);
+            NovaRecargaResponse response = recargaCelularClient.novaRecarga(recargaRequest);
+            return ResponseEntity.ok(response);
 
         } catch (FeignException.InternalServerError ex) {
+        	logger.error(ex.toString());
             contaService.estornarValor(idUsuario, recargaRequest.getValor());
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
-                    .body(new NovaRecargaResponse("Ocorreu uma falha de comunicação com o serviço de recarga."));
+            throw new ServicoIndisponivelException();
 
         } catch (FeignException.BadRequest ex) {
             contaService.estornarValor(idUsuario, recargaRequest.getValor());
-            return ResponseEntity.badRequest()
-                    .body(new NovaRecargaResponse("Dados inválidos"));
-
+            
+            RecargaCelularErrorResponse error = new ObjectMapper()
+            		.readValue(ex.contentUTF8(), RecargaCelularErrorResponse.class);
+            
+            return ResponseEntity.badRequest().body(error.toApiErrorResponse());
         }
-
-        return ResponseEntity.ok(new NovaRecargaResponse("Sua recarga esta sendo processada"));
     }
 
 }
