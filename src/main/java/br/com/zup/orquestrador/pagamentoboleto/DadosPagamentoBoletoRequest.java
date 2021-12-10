@@ -13,6 +13,11 @@ public class DadosPagamentoBoletoRequest {
 	private BigDecimal valor;
 	private String numeroBoleto;
 
+	public DadosPagamentoBoletoRequest(BigDecimal valor, String numeroBoleto) {
+		this.valor = valor;
+		this.numeroBoleto = numeroBoleto;
+	}
+
 	public @Valid PagamentoBoletoRequest fromClient(ContaDigital conta) {
 		return new PagamentoBoletoRequest(valor, numeroBoleto, conta);
 	}

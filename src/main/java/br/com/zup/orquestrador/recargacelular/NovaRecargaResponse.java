@@ -16,6 +16,13 @@ public class NovaRecargaResponse {
 	private BigDecimal valor;
 	
 	@JsonProperty
-	private String mensagem;	
+	private String mensagem;
+
+	public NovaRecargaResponse(String numeroCelular, Operadora operadora, BigDecimal valor, String mensagem) {
+		this.numeroCelular = numeroCelular;
+		this.operadora = operadora;
+		this.valor = valor;
+		this.mensagem = mensagem;
+	}
 
 }

@@ -11,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface ContaDigitalClient {
 	
 	@PostMapping("/api/v1/contasdigitas/{idCliente}/transacoes")
-	public TransacaoResponse novaTransacao(@PathVariable Long idCliente, @RequestBody @Valid TransacaoRequest request);
+	TransacaoResponse novaTransacao(@PathVariable Long idCliente, @RequestBody @Valid TransacaoRequest request);
 
 }

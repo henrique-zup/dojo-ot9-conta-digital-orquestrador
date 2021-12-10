@@ -43,7 +43,7 @@ public class RecargaCelularController {
 
 	@PostMapping("/{idUsuario}")
     public ResponseEntity<?> recargaCelular(@PathVariable Long idUsuario,
-                                                              @RequestBody @Valid NovaRecargaRequest recargaRequest) throws JsonMappingException, JsonProcessingException{
+                                            @RequestBody @Valid NovaRecargaRequest recargaRequest) throws JsonMappingException, JsonProcessingException{
         contaService.debitarSaldo(idUsuario, recargaRequest.getValor());
         
         try {
@@ -63,14 +63,6 @@ public class RecargaCelularController {
             
             return ResponseEntity.badRequest().body(error.toApiErrorResponse());
         }
-    }
-
-    @PostMapping("/kafka")
-    @ResponseStatus(HttpStatus.OK)
-    public void recargaCelular(@RequestBody MensagemKafka mensagemKafka){
-        producerKafka.sendMessage(mensagemKafka);
-
-
     }
 
 }
