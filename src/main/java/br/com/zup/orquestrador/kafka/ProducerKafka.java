@@ -40,6 +40,6 @@ public class ProducerKafka {
                 conta.getEmail(),
                 pagamentoComSucesso,
                 valor,
-                conta.getNumeroConta());
+                conta.getIdUsuario().toString());
     }
 }

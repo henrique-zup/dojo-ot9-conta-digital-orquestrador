@@ -30,6 +30,9 @@ public class MensagemKafka {
         this.nroConta = nroConta;
     }
 
+    public MensagemKafka() {
+    }
+
     public String getMensagem() {
         return mensagem;
     }
