@@ -2,6 +2,7 @@ package br.com.zup.orquestrador.contadigital;
 
 import java.math.BigDecimal;
 
+import br.com.zup.orquestrador.kafka.ProducerKafka;
 import org.springframework.stereotype.Service;
 
 import br.com.zup.orquestrador.excecoes.impl.ContaNaoEncontradaException;
@@ -13,6 +14,7 @@ import feign.FeignException;
 @Service
 public class ContaDigitalService {
 
+	private ProducerKafka producerKafka;
 	private ContaDigitalClient contaClient;
 
 	public ContaDigitalService(ContaDigitalClient contaClient) {
@@ -43,7 +45,7 @@ public class ContaDigitalService {
 	
 	public ContaDigital estornarValor(Long idUsuario, BigDecimal valor) {
 		TransacaoRequest transacao = TransacaoRequest.buildForCredito(valor);
-		
+
 		try {
 			TransacaoResponse response = contaClient.novaTransacao(idUsuario, transacao);
 			return response.fromModel();

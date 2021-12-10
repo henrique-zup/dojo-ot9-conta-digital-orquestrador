@@ -1,74 +1,72 @@
 package br.com.zup.orquestrador.kafka;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 public class MensagemKafka {
 
+    private String mensagem;
+    private String assunto;
+    private String remetente;
+    private String destinatario;
+    private String idMensagem = UUID.randomUUID().toString();
 
+    private Boolean pagamentoComSucesso;
+    private BigDecimal valor;
+    private String nroConta;
 
-    private String operacao;
-    private String valor;
-    private String data;
-    private String cliente;
-    private String conta;
+    private String tipoOperacao = "RECARGA-CELULAR";
+    private LocalDateTime dataOperacao = LocalDateTime.now();
 
-    public MensagemKafka() {
-    }
-
-    public MensagemKafka(String operacao, String valor, String data, String cliente, String conta) {
-        this.operacao = operacao;
+    public MensagemKafka(String mensagem, String assunto, String remetente, String destinatario,
+                         Boolean pagamentoComSucesso, BigDecimal valor, String nroConta) {
+        this.mensagem = mensagem;
+        this.assunto = assunto;
+        this.remetente = remetente;
+        this.destinatario = destinatario;
+        this.pagamentoComSucesso = pagamentoComSucesso;
         this.valor = valor;
-        this.data = data;
-        this.cliente = cliente;
-        this.conta = conta;
+        this.nroConta = nroConta;
     }
 
-    public String getOperacao() {
-        return operacao;
+    public String getMensagem() {
+        return mensagem;
     }
 
-    public void setOperacao(String operacao) {
-        this.operacao = operacao;
+    public String getAssunto() {
+        return assunto;
     }
 
-    public String getValor() {
+    public String getRemetente() {
+        return remetente;
+    }
+
+    public String getDestinatario() {
+        return destinatario;
+    }
+
+    public Boolean getPagamentoComSucesso() {
+        return pagamentoComSucesso;
+    }
+
+    public String getIdMensagem() {
+        return idMensagem;
+    }
+
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(String valor) {
-        this.valor = valor;
+    public String getNroConta() {
+        return nroConta;
     }
 
-    public String getData() {
-        return data;
+    public String getTipoOperacao() {
+        return tipoOperacao;
     }
 
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public String getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
-    }
-
-    public String getConta() {
-        return conta;
-    }
-
-    public void setConta(String conta) {
-        this.conta = conta;
-    }
-
-    @Override
-    public String toString() {
-        return "MensagemKafka{" +
-                "operacao='" + operacao + '\'' +
-                ", valor='" + valor + '\'' +
-                ", data='" + data + '\'' +
-                ", cliente='" + cliente + '\'' +
-                ", conta='" + conta + '\'' +
-                '}';
+    public LocalDateTime getDataOperacao() {
+        return dataOperacao;
     }
 }
