@@ -48,7 +48,7 @@ public class RecargaCelularController {
         
         try {
             NovaRecargaResponse response = recargaCelularClient.novaRecarga(recargaRequest);
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response.fromBFF());
 
         } catch (FeignException.InternalServerError ex) {
         	logger.error(ex.toString());
@@ -56,6 +56,7 @@ public class RecargaCelularController {
             throw new ServicoIndisponivelException();
 
         } catch (FeignException.BadRequest ex) {
+        	logger.error(ex.toString());
             contaService.estornarValor(idUsuario, recargaRequest.getValor());
             
             RecargaCelularErrorResponse error = new ObjectMapper()

@@ -16,6 +16,10 @@ public class NovaRecargaResponse {
 	private BigDecimal valor;
 	
 	@JsonProperty
-	private String mensagem;	
+	private String mensagem;
+
+	public NovaRecargaBffResponse fromBFF() {
+		return new NovaRecargaBffResponse(this.mensagem);
+	}	
 
 }
