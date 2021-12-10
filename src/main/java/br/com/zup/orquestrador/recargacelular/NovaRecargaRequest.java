@@ -2,8 +2,7 @@ package br.com.zup.orquestrador.recargacelular;
 
 import java.math.BigDecimal;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 public class NovaRecargaRequest {
 
@@ -14,7 +13,15 @@ public class NovaRecargaRequest {
 	@NotBlank
 	private String operadora;
 
+	@PositiveOrZero
+	@NotNull
 	private BigDecimal valor;
+
+	public NovaRecargaRequest(String numeroCelular, String operadora, BigDecimal valor) {
+		this.numeroCelular = numeroCelular;
+		this.operadora = operadora;
+		this.valor = valor;
+	}
 
 	public String getNumeroCelular() {
 		return numeroCelular;
