@@ -21,11 +21,11 @@ public class MensagemKafka {
         this.conta = conta;
     }
 
-    public String getOperação() {
+    public String getOperacao() {
         return operacao;
     }
 
-    public void setOperação(String operacao) {
+    public void setOperacao(String operacao) {
         this.operacao = operacao;
     }
 
@@ -64,7 +64,7 @@ public class MensagemKafka {
     @Override
     public String toString() {
         return "MensagemKafka{" +
-                "operação='" + operacao + '\'' +
+                "operacao='" + operacao + '\'' +
                 ", valor='" + valor + '\'' +
                 ", data='" + data + '\'' +
                 ", cliente='" + cliente + '\'' +
